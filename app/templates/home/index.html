@@ -1,112 +1,86 @@
 {% load static %}
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Gallery </title>
-    <link href="{% static 'app/css/bootstrap.css' %}" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title> Gallery </title>
+	<link href="{% static 'app/css/bootstrap.css' %}" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
 
 </head>
 <body class="d-flex h-100 text-center text-bg-dark">
 
 <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
-    <h3 class="text-center mb-4">Fioreria Laura</h3>
+	<h3 class="text-center mb-4">Fioreria Laura</h3>
 
-    <div class="m-4 row">
-        <div class="col-5">
-            {% if item_to_edit %}
-            <form action="updateitem/{{ item_to_edit.id }}" method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-                <div class="row my-3">
-                    <div class="col">
-                        <label for="EANCode" class="form-label">Codice a barre</label>
-                        <input type="text" class="form-control" id="EANCode" name="ean_code"
-                               value="{{ item_to_edit.ean_code }}">
-                    </div>
-                    <div class="row my-3">
-                        <div class="col">
-                            <label for="buyPrice" class="form-label">Prezzo di Acquisto</label>
-                            <input type="number" class="form-control" id="buyPrice" step=".01"
-                                   name="original_price" value="{{ item_to_edit.original_price }}">
-                        </div>
-                        <div class="col">
-                            <label for="sellPrice" class="form-label">Prezzo di Vendita</label>
-                            <input type="number" class="form-control" id="sellPrice" step=".01"
-                                   name="price" value="{{ item_to_edit.price }}">
-                        </div>
-                    </div>
-                    <div class="my-3">
-                        <label for="descrizione" class="form-label">Descrizione</label>
-                        <input type="text" class="form-control" id="descrizione"
-                               name="description" value="{{ item_to_edit.description }}">
-                    </div>
-                </div>
-                <button type="submit" class="btn btn-primary">Salva</button>
-            </form>
-            {% else %}
-            <form action="/add/" method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-                <div class="row my-3">
-                    <div class="col">
-                        <label for="EANCode" class="form-label">Codice a barre</label>
-                        <input type="text" class="form-control" id="EANCode" name="ean_code">
-                    </div>
-                    <div class="row my-3">
-                        <div class="col">
-                            <label for="buyPrice" class="form-label">Prezzo di Acquisto</label>
-                            <input type="number" class="form-control" id="buyPrice" step=".01"
-                                   name="original_price">
-                        </div>
-                        <div class="col">
-                            <label for="sellPrice" class="form-label">Prezzo di Vendita</label>
-                            <input type="number" class="form-control" id="sellPrice" step=".01"
-                                   name="price">
-                        </div>
-                    </div>
-                    <div class="my-3">
-                        <label for="descrizione" class="form-label">Descrizione</label>
-                        <input type="text" class="form-control" id="descrizione"
-                               name="description">
-                    </div>
-                </div>
-                <button type="submit" class="btn btn-primary">Salva</button>
-            </form>
-            {% endif %}
+	<div class="m-4 row">
+		<div>
+			<form action="/add/{% if item_id %}{{item_id}}{% endif %}" method="post" enctype="multipart/form-data">
+				{% csrf_token %}
+				<div class="row my-3">
 
-        </div>
-        <div class="col" style="overflow-y:scroll; height:800px;">
-            <table class="table table-dark table-striped text-white">
-                <thead class="sticky-top">
-                <tr>
-                    <th scope="col" class="col-3">EAN Code</th>
-                    <th scope="col" class="col-2">Prezzi</th>
-                    <th scope="col" class="col-5">Descrizione</th>
-                    <th scope="col" class="col-2"></th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for item in items %}
-                <tr class="align-middle">
-                    <th>{{item.ean_code}}</th>
-                    <td>
-                        <div class="row">
-                            <div class=col">Acquisto: € {{item.original_price}}</div>
-                            <div class="col">Vendita: € {{item.price}}</div>
-                        </div>
+					<div class="row my-3">
+						<div class="col-3">
+							<label for="EANCode" class="form-label">Codice a barre</label>
+							<input type="text" class="form-control" id="EANCode" name="ean_code"
+							value="{{ item_to_edit.ean_code }}">
+						</div>
+						<div class="col-2">
+							<label for="buyPrice" class="form-label">Prezzo di Acquisto</label>
+							<input type="number" class="form-control" id="buyPrice" step=".01"
+										 name="original_price" value="{{ item_to_edit.original_price }}">
+						</div>
+						<div class="col-2">
+							<label for="sellPrice" class="form-label">Prezzo di Vendita</label>
+							<input type="number" class="form-control" id="sellPrice" step=".01"
+										 name="price" value="{{ item_to_edit.price }}">
+						</div>
+						<div class="col-4">
+							<label for="descrizione" class="form-label">Descrizione</label>
+							<input type="text" class="form-control" id="descrizione"
+										 name="description" value="{{ item_to_edit.description }}">
+						</div>
+						<div class="col-1" style="margin-top:30px">
+							<button type="submit" class="btn btn-primary">Salva</button>
+						</div>
+					</div>
 
-                    </td>
-                    <td>{{item.description}}</td>
-                    <td>
-                        <a href="/update/{{item.id}}" class="btn btn-secondary"><i class="bi bi-pencil-fill"></i></a>
-                        <a href="/delete/{{item.id}}" class="btn btn-secondary"><i class="bi bi-trash-fill"></i></a>
-                    </td>
-                </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </div>
+				</div>
+			</form>
+
+		</div>
+		<div class="col">
+			<table class="table table-dark table-striped text-white">
+				<thead class="sticky-top">
+				<tr>
+					<th scope="col" class="col-3">EAN Code</th>
+					<th scope="col" class="col-2">Prezzi</th>
+					<th scope="col" class="col-5">Descrizione</th>
+					<th scope="col" class="col-2"></th>
+				</tr>
+				</thead>
+				<tbody>
+				{% for item in items %}
+				<tr class="align-middle">
+					<th>{{item.ean_code}}</th>
+					<td>
+						<div class="row">
+							<div class=col">Acquisto: € {{item.original_price}}</div>
+							<div class="col">Vendita: € {{item.price}}</div>
+						</div>
+
+					</td>
+					<td>{{item.description}}</td>
+					<td>
+						<a href="/update/{{item.id}}" class="btn btn-secondary"><i class="bi bi-pencil-fill"></i></a>
+						<a href="/delete/{{item.id}}" class="btn btn-secondary"><i class="bi bi-trash-fill"></i></a>
+					</td>
+				</tr>
+				{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
 </div>
 
 </body>

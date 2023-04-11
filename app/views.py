@@ -23,7 +23,7 @@ def add(request):
 
             return HttpResponseRedirect(reverse('index'))
 
-    return request
+    return HttpResponseRedirect(reverse('index'))
 
 
 def delete(request, id):
@@ -39,7 +39,8 @@ def update(request, id):
     template = loader.get_template('home/index.html')
     context = {
         'items': items,
-        'item_to_edit': item_to_edit
+        'item_to_edit': item_to_edit,
+        'item_id': id,
     }
     return HttpResponse(template.render(context, request))
 
